@@ -58,12 +58,22 @@ class ReactAgent:
                 prompt=system_prompt,
             )
 
-    def execute_stream(self,query:str):
+    def execute_stream(self, query: str, user_city: str | None = None):
         input_dict = {
             "messages": [
-                {"role": "user", "content":query}
+                {"role": "user", "content": query}
             ]
         }
+
+        if user_city and user_city.strip():
+            # 给模型一个显式上下文，减少它调用 IP 定位工具的概率。
+            input_dict["messages"].insert(
+                0,
+                {
+                    "role": "system",
+                    "content": f"用户当前所在城市（用户手动提供）是：{user_city.strip()}。涉及位置相关问题时优先使用该信息。",
+                },
+            )
 
         for chunk in self.agent.stream(input_dict,stream_mode="values",context={"report":False}):
             latest_message=chunk["messages"][-1]

@@ -51,9 +51,13 @@ def get_weather(city: str) -> str:
 @tool("get_user_location", description="获取用户所在城市的名称，以字符串形式返回")
 def local_get_user_location()->str:
     """
-    通过公网 IP 定位接口获取当前用户所在城市，优先返回城市名。
+    优先读取用户手动设置的城市；若未设置，再通过公网 IP 定位接口获取当前城市。
     当主接口超时或缺少城市信息时，自动回退到其他接口；全部失败时返回“未知”。
     """
+    manual_city = os.getenv("USER_CITY_OVERRIDE", "").strip()
+    if manual_city:
+        return manual_city
+
     providers = [
         (
             "https://ipwho.is/",

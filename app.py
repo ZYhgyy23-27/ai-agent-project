@@ -17,6 +17,13 @@ import streamlit as st
 st.title("小钟自驾出游助手")
 st.divider()
 
+# 用户城市优先级高于服务器 IP 定位，避免云部署定位到机房所在地
+user_city = st.text_input("你当前所在城市（可手动指定）", value="杭州").strip()
+if user_city:
+    os.environ["USER_CITY_OVERRIDE"] = user_city
+else:
+    os.environ.pop("USER_CITY_OVERRIDE", None)
+
 #做一个保护防止ReactAgent多次创建消耗性能
 if "agent" not in st.session_state:
     st.session_state["agent"] = ReactAgent()
@@ -37,7 +44,7 @@ if prompt:
 
     response_messages =[]
     with st.spinner("小钟思考中"):
-       res_stream = st.session_state["agent"].execute_stream(prompt)
+       res_stream = st.session_state["agent"].execute_stream(prompt, user_city=user_city)
 
        def capture(generator,cache_list):
            for chunk in generator:
