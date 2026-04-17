@@ -157,9 +157,9 @@ def _get_lng_lat_impl(
         }
         if target_city and target_city.strip():
             params["city"] = target_city.strip()
-    response = requests.get(url, params=params, timeout=10)
-    response.raise_for_status()
-    return response.json()
+        response = requests.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        return response.json()
 
     def _pick_best_geocode(
         data: dict,
