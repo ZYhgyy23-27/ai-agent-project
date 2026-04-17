@@ -35,19 +35,24 @@ def get_weather(city: str) -> str:
     参数:
     city：城市名称 如(杭州 / hangzhou)
     """
-    #1.构建请求
-    url = f"https://wttr.in/{city}"
-    #2.配置参数
-    params = {"format": "j1"}
-    #3.发送请求
-    r = requests.get(url, params=params, timeout=10)
-    r.raise_for_status()
-    #4.解析响应
-    data = r.json()
-    current = (data.get("current_condition") or [{}])[0]
-    temp_c = current.get("temp_C")
-    desc = ((current.get("weatherDesc") or [{}])[0]).get("value")
-    return f"{city}：{temp_c}°C，{desc}"
+    try:
+        #1.构建请求
+        url = f"https://wttr.in/{city}"
+        #2.配置参数
+        params = {"format": "j1"}
+        #3.发送请求
+        r = requests.get(url, params=params, timeout=10)
+        r.raise_for_status()
+        #4.解析响应
+        data = r.json()
+        current = (data.get("current_condition") or [{}])[0]
+        temp_c = current.get("temp_C")
+        desc = ((current.get("weatherDesc") or [{}])[0]).get("value")
+        if temp_c is None and not desc:
+            return f"{city}：天气接口暂无有效数据，请稍后重试。"
+        return f"{city}：{temp_c}°C，{desc}"
+    except Exception as e:
+        return f"{city}：天气查询失败（{e}）。请稍后重试，或直接告诉我你想去的景点，我可先按常规天气为你规划。"
 
 @tool("get_user_location", description="获取用户所在城市的名称，以字符串形式返回")
 def local_get_user_location()->str:
@@ -152,9 +157,9 @@ def _get_lng_lat_impl(
         }
         if target_city and target_city.strip():
             params["city"] = target_city.strip()
-        response = requests.get(url, params=params, timeout=10)
-        response.raise_for_status()
-        return response.json()
+    response = requests.get(url, params=params, timeout=10)
+    response.raise_for_status()
+    return response.json()
 
     def _pick_best_geocode(
         data: dict,
@@ -240,18 +245,31 @@ def calc_distance_by_address(address1, address2, city1=None, city2=None):
         'origin': f'{origin_lng},{origin_lat}',
         'destination': f'{dest_lng},{dest_lat}'
     }
-    response = requests.get(url, params=params)
-    data = response.json()
+    try:
+        response = requests.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        data = response.json()
 
-    if data['status'] == '1' and int(data['count']) > 0:
-        route = data['route']['paths'][0]
+        if data['status'] == '1' and int(data['count']) > 0:
+            route = data['route']['paths'][0]
+            return {
+                'distance_meter': int(route['distance']),  # 导航距离（米）
+                'duration_second': int(route['duration']),  # 预计耗时（秒）
+                'distance_km': round(int(route['distance']) / 1000, 2)  # 转为公里
+            }
         return {
-            'distance_meter': int(route['distance']),  # 导航距离（米）
-            'duration_second': int(route['duration']),  # 预计耗时（秒）
-            'distance_km': round(int(route['distance']) / 1000, 2)  # 转为公里
+            "error": f"路径规划失败：{data.get('info', '未知错误')}",
+            "distance_meter": None,
+            "duration_second": None,
+            "distance_km": None,
         }
-    else:
-        raise Exception(f"路径规划失败：{data.get('info', '未知错误')}")
+    except Exception as e:
+        return {
+            "error": f"路径规划接口调用失败：{e}",
+            "distance_meter": None,
+            "duration_second": None,
+            "distance_km": None,
+        }
 
 
 # --- 使用示例 ---
