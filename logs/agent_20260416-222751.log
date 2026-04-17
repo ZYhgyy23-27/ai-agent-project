@@ -1,0 +1,15 @@
+2026-04-16 22:27:51,546 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有1条消息
+2026-04-16 22:27:51,546 - agent - DEBUG - middleware.py:46 - [log_before_model] HumanMessage | 我想去自驾游有什么推荐的吗
+2026-04-16 22:27:53,722 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_user_location 
+2026-04-16 22:27:53,723 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {} 
+2026-04-16 22:27:56,190 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_user_location调用成功
+2026-04-16 22:27:56,192 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有3条消息
+2026-04-16 22:27:56,192 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Hangzhou
+2026-04-16 22:27:58,653 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_weather 
+2026-04-16 22:27:58,654 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'city': '杭州'} 
+2026-04-16 22:28:03,969 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_weather调用成功
+2026-04-16 22:28:03,970 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有5条消息
+2026-04-16 22:28:03,970 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | 杭州：18°C，Light drizzle, mist
+2026-04-16 22:28:07,101 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: rag_summarize 
+2026-04-16 22:28:07,101 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'query': '杭州周边自驾游推荐路线'} 
+2026-04-16 22:28:07,102 - agent - ERROR - middleware.py:31 - 工具rag_summarize调用失败,原因:'RagSummarizeService' object has no attribute 'summarize'

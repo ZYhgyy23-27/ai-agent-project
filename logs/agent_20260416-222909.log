@@ -1,0 +1,17 @@
+2026-04-16 22:29:10,003 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有1条消息
+2026-04-16 22:29:10,003 - agent - DEBUG - middleware.py:46 - [log_before_model] HumanMessage | 我想去自驾游有什么推荐的吗
+2026-04-16 22:29:12,465 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_user_location 
+2026-04-16 22:29:12,465 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {} 
+2026-04-16 22:29:13,091 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_user_location调用成功
+2026-04-16 22:29:13,092 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有3条消息
+2026-04-16 22:29:13,092 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Hangzhou
+2026-04-16 22:29:15,605 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_weather 
+2026-04-16 22:29:15,605 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'city': '杭州'} 
+2026-04-16 22:29:24,166 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_weather调用成功
+2026-04-16 22:29:24,167 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有5条消息
+2026-04-16 22:29:24,167 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | 杭州：18°C，Light drizzle, mist
+2026-04-16 22:29:27,889 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: rag_summarize 
+2026-04-16 22:29:27,889 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'query': '杭州周边自驾游推荐'} 
+2026-04-16 22:29:32,129 - agent - INFO - middleware.py:27 - [tool monitor]工具: rag_summarize调用成功
+2026-04-16 22:29:32,130 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有7条消息
+2026-04-16 22:29:32,130 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | 杭州周边自驾游可推荐乌镇、西塘、千岛湖、莫干山和绍兴。乌镇和西塘为江南水乡古镇，适合体验古韵与慢生活；千岛湖以湖光山色和岛屿景观著称；莫干山以竹林、避暑胜地和精品民宿闻名；绍兴则拥有鲁迅故里、沈园等历史文化景点。

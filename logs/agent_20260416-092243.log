@@ -1,0 +1,4 @@
+2026-04-16 09:22:43,676 - agent - INFO - vector_store.py:86 - [加载知识库]D:\AI大模型RAG与智能体开发\Agent项目示例\data\景点数据1.txt内容已经存在于知识库内,跳过
+2026-04-16 09:22:43,677 - agent - INFO - vector_store.py:86 - [加载知识库]D:\AI大模型RAG与智能体开发\Agent项目示例\data\景点数据2.txt内容已经存在于知识库内,跳过
+2026-04-16 09:22:43,678 - agent - INFO - vector_store.py:86 - [加载知识库]D:\AI大模型RAG与智能体开发\Agent项目示例\data\景点数据3.txt内容已经存在于知识库内,跳过
+2026-04-16 09:22:43,678 - agent - INFO - vector_store.py:120 - [加载知识库]完成：成功0个，跳过3个，失败0个

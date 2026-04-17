@@ -1,0 +1,7 @@
+2026-04-16 22:23:55,366 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有1条消息
+2026-04-16 22:23:55,366 - agent - DEBUG - middleware.py:46 - [log_before_model] HumanMessage | 我想去自驾游有什么推荐的吗
+2026-04-16 22:23:58,217 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: local_get_user_location 
+2026-04-16 22:23:58,217 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {} 
+2026-04-16 22:24:06,441 - agent - INFO - middleware.py:27 - [tool monitor]工具: local_get_user_location调用成功
+2026-04-16 22:24:06,445 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有3条消息
+2026-04-16 22:24:06,445 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | 未知

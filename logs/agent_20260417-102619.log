@@ -1,0 +1,84 @@
+2026-04-17 10:26:52,974 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有1条消息
+2026-04-17 10:26:52,975 - agent - DEBUG - middleware.py:46 - [log_before_model] HumanMessage | 我打算假期去自驾游比较想去江苏你可以给我几个建议吗
+2026-04-17 10:27:03,169 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: rag_summarize 
+2026-04-17 10:27:03,169 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'query': '江苏自驾游经典路线推荐'} 
+2026-04-17 10:27:05,196 - agent - INFO - middleware.py:27 - [tool monitor]工具: rag_summarize调用成功
+2026-04-17 10:27:05,577 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有3条消息
+2026-04-17 10:27:05,579 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | 参考资料中未提供江苏自驾游经典路线的具体信息。
+2026-04-17 10:27:10,161 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_user_location 
+2026-04-17 10:27:10,161 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {} 
+2026-04-17 10:27:10,771 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_user_location调用成功
+2026-04-17 10:27:10,919 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有5条消息
+2026-04-17 10:27:10,920 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Hangzhou
+2026-04-17 10:27:16,990 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_weather 
+2026-04-17 10:27:16,991 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'city': 'Suzhou'} 
+2026-04-17 10:27:18,216 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_weather调用成功
+2026-04-17 10:27:18,513 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有7条消息
+2026-04-17 10:27:18,513 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Suzhou：18°C，Cloudy
+2026-04-17 10:27:20,055 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_weather 
+2026-04-17 10:27:20,055 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'city': 'Nanjing'} 
+2026-04-17 10:27:21,201 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_weather调用成功
+2026-04-17 10:27:21,493 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有9条消息
+2026-04-17 10:27:21,493 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Nanjing：20°C，Mist
+2026-04-17 10:27:23,809 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_weather 
+2026-04-17 10:27:23,809 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'city': 'Wuxi'} 
+2026-04-17 10:27:24,822 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_weather调用成功
+2026-04-17 10:27:25,097 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有11条消息
+2026-04-17 10:27:25,097 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Wuxi：18°C，Cloudy
+2026-04-17 10:27:30,191 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: calc_distance_by_address 
+2026-04-17 10:27:30,192 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'address1': '杭州市', 'address2': '苏州市'} 
+2026-04-17 10:27:30,270 - agent - ERROR - middleware.py:31 - 工具calc_distance_by_address调用失败,原因:地理编码失败：INVALID_USER_KEY
+2026-04-17 10:31:08,596 - agent - INFO - middleware.py:42 - [log_before_model]即将调用模型,带有1条消息
+2026-04-17 10:31:08,596 - agent - DEBUG - middleware.py:49 - [log_before_model] HumanMessage | 我想去江苏玩能给几个自驾游建议吗
+2026-04-17 10:31:11,036 - agent - INFO - middleware.py:20 - [tool monitor]执行工具: rag_summarize 
+2026-04-17 10:31:11,037 - agent - INFO - middleware.py:21 - [tool monitor]传入参数: {'query': '江苏自驾游推荐路线和景点'} 
+2026-04-17 10:31:14,772 - agent - INFO - middleware.py:26 - [tool monitor]工具: rag_summarize调用成功
+2026-04-17 10:31:16,367 - agent - INFO - middleware.py:42 - [log_before_model]即将调用模型,带有3条消息
+2026-04-17 10:31:16,367 - agent - DEBUG - middleware.py:49 - [log_before_model] ToolMessage | 江苏自驾游推荐路线包括南京—扬州—泰州—南通一线，可游览中山陵、夫子庙、瘦西湖、溱湖湿地公园和狼山风景区等景点；另一条为苏州—无锡—常州环太湖路线，涵盖拙政园、留园、鼋头渚、灵山大佛及中华恐龙园等景点。
+2026-04-17 10:31:17,794 - agent - INFO - middleware.py:20 - [tool monitor]执行工具: get_user_location 
+2026-04-17 10:31:17,795 - agent - INFO - middleware.py:21 - [tool monitor]传入参数: {} 
+2026-04-17 10:31:18,446 - agent - INFO - middleware.py:26 - [tool monitor]工具: get_user_location调用成功
+2026-04-17 10:31:18,598 - agent - INFO - middleware.py:42 - [log_before_model]即将调用模型,带有5条消息
+2026-04-17 10:31:18,599 - agent - DEBUG - middleware.py:49 - [log_before_model] ToolMessage | Hangzhou
+2026-04-17 10:31:20,294 - agent - INFO - middleware.py:20 - [tool monitor]执行工具: calc_distance_by_address 
+2026-04-17 10:31:20,294 - agent - INFO - middleware.py:21 - [tool monitor]传入参数: {'address1': 'Hangzhou', 'address2': 'Nanjing'} 
+2026-04-17 10:31:20,388 - agent - ERROR - middleware.py:31 - 工具calc_distance_by_address调用失败：高德Key无效（INVALID_USER_KEY）。请检查 .env 中 GD_API_KEY 是否正确，并确认该 Key 已开通 Web服务 API。
+2026-04-17 10:31:22,066 - agent - INFO - middleware.py:42 - [log_before_model]即将调用模型,带有7条消息
+2026-04-17 10:31:22,066 - agent - DEBUG - middleware.py:49 - [log_before_model] ToolMessage | 工具calc_distance_by_address调用失败：高德Key无效（INVALID_USER_KEY）。请检查 .env 中 GD_API_KEY 是否正确，并确认该 Key 已开通 Web服务 API。
+2026-04-17 10:31:24,051 - agent - INFO - middleware.py:20 - [tool monitor]执行工具: calc_distance_by_address 
+2026-04-17 10:31:24,052 - agent - INFO - middleware.py:21 - [tool monitor]传入参数: {'address1': 'Hangzhou', 'address2': 'Suzhou'} 
+2026-04-17 10:31:24,125 - agent - ERROR - middleware.py:31 - 工具calc_distance_by_address调用失败：高德Key无效（INVALID_USER_KEY）。请检查 .env 中 GD_API_KEY 是否正确，并确认该 Key 已开通 Web服务 API。
+2026-04-17 10:31:25,805 - agent - INFO - middleware.py:42 - [log_before_model]即将调用模型,带有9条消息
+2026-04-17 10:31:25,805 - agent - DEBUG - middleware.py:49 - [log_before_model] ToolMessage | 工具calc_distance_by_address调用失败：高德Key无效（INVALID_USER_KEY）。请检查 .env 中 GD_API_KEY 是否正确，并确认该 Key 已开通 Web服务 API。
+2026-04-17 10:33:01,633 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有1条消息
+2026-04-17 10:33:01,633 - agent - DEBUG - middleware.py:46 - [log_before_model] HumanMessage | 我想去江苏玩你给我几个自驾建议
+2026-04-17 10:33:03,091 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_user_location 
+2026-04-17 10:33:03,092 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {} 
+2026-04-17 10:33:03,713 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_user_location调用成功
+2026-04-17 10:33:03,852 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有3条消息
+2026-04-17 10:33:03,853 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Hangzhou
+2026-04-17 10:33:05,890 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: rag_summarize 
+2026-04-17 10:33:05,890 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'query': '江苏自驾游推荐路线'} 
+2026-04-17 10:33:07,511 - agent - INFO - middleware.py:27 - [tool monitor]工具: rag_summarize调用成功
+2026-04-17 10:33:07,890 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有5条消息
+2026-04-17 10:33:07,890 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | 参考资料中未提供江苏自驾游推荐路线的具体信息。
+2026-04-17 10:33:09,412 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_weather 
+2026-04-17 10:33:09,413 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'city': 'Nanjing'} 
+2026-04-17 10:33:10,450 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_weather调用成功
+2026-04-17 10:33:10,732 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有7条消息
+2026-04-17 10:33:10,733 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Nanjing：20°C，Mist
+2026-04-17 10:33:12,014 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: get_weather 
+2026-04-17 10:33:12,015 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'city': 'Suzhou'} 
+2026-04-17 10:33:13,272 - agent - INFO - middleware.py:27 - [tool monitor]工具: get_weather调用成功
+2026-04-17 10:33:13,565 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有9条消息
+2026-04-17 10:33:13,566 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | Suzhou：18°C，Cloudy
+2026-04-17 10:33:15,384 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: calc_distance_by_address 
+2026-04-17 10:33:15,385 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'address1': 'Hangzhou', 'address2': 'Nanjing'} 
+2026-04-17 10:33:15,759 - agent - INFO - middleware.py:27 - [tool monitor]工具: calc_distance_by_address调用成功
+2026-04-17 10:33:16,936 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有11条消息
+2026-04-17 10:33:16,936 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | {"distance_meter": 279992, "duration_second": 11946, "distance_km": 279.99}
+2026-04-17 10:33:18,944 - agent - INFO - middleware.py:21 - [tool monitor]执行工具: calc_distance_by_address 
+2026-04-17 10:33:18,944 - agent - INFO - middleware.py:22 - [tool monitor]传入参数: {'address1': 'Hangzhou', 'address2': 'Suzhou'} 
+2026-04-17 10:33:19,422 - agent - INFO - middleware.py:27 - [tool monitor]工具: calc_distance_by_address调用成功
+2026-04-17 10:33:20,606 - agent - INFO - middleware.py:39 - [log_before_model]即将调用模型,带有13条消息
+2026-04-17 10:33:20,608 - agent - DEBUG - middleware.py:46 - [log_before_model] ToolMessage | {"distance_meter": 578747, "duration_second": 22906, "distance_km": 578.75}

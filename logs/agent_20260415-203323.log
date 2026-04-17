@@ -1,0 +1,3 @@
+2026-04-15 20:33:23,818 - agent - ERROR - file_handler.py:41 - [listdir_with_allowed_type]data不是文件夹
+2026-04-15 20:33:23,818 - agent - ERROR - file_handler.py:14 - [md5计算]文件txt不存在
+2026-04-15 20:33:23,819 - agent - ERROR - vector_store.py:89 - [加载知识库]txt内没有有效文本内容,跳过
