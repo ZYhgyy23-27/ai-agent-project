@@ -44,7 +44,11 @@ if prompt:
 
     response_messages =[]
     with st.spinner("小钟思考中"):
-       res_stream = st.session_state["agent"].execute_stream(prompt, user_city=user_city)
+       try:
+           res_stream = st.session_state["agent"].execute_stream(prompt, user_city=user_city)
+       except TypeError:
+           # 兼容旧版本 ReactAgent.execute_stream(self, query)
+           res_stream = st.session_state["agent"].execute_stream(prompt)
 
        def capture(generator,cache_list):
            for chunk in generator:
