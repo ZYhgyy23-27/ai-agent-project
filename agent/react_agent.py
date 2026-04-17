@@ -7,7 +7,14 @@ if __package__ is None or __package__ == "":
     )
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
-from langchain.agents import create_agent
+try:
+    # LangChain v1 风格
+    from langchain.agents import create_agent as lc_create_agent
+    _AGENT_FACTORY = "langchain"
+except Exception:
+    # 兼容部分环境：使用 LangGraph 预构建 ReAct
+    from langgraph.prebuilt import create_react_agent as lg_create_react_agent
+    _AGENT_FACTORY = "langgraph"
 from model.factory import chat_model
 from utils.prompt_loader import load_system_prompts
 if __package__:
@@ -32,12 +39,24 @@ else:
 
 class ReactAgent:
     def __init__(self):
-        self.agent = create_agent(
-            model=chat_model,
-            system_prompt=load_system_prompts(),
-            tools=[calc_distance_by_address, get_weather,rag_summarize,get_lng_lat,local_get_user_location],
-            middleware=[ monitor_tool, log_before_model, report_prompt_switch],
-        )
+        tools = [calc_distance_by_address, get_weather, rag_summarize, get_lng_lat, local_get_user_location]
+        system_prompt = load_system_prompts()
+
+        if _AGENT_FACTORY == "langchain":
+            self.agent = lc_create_agent(
+                model=chat_model,
+                system_prompt=system_prompt,
+                tools=tools,
+                middleware=[monitor_tool, log_before_model, report_prompt_switch],
+            )
+        else:
+            # LangGraph 分支没有与 LangChain v1 完全一致的 middleware 参数，
+            # 先保证部署可运行，后续如需链路埋点可再迁移到 graph middleware。
+            self.agent = lg_create_react_agent(
+                model=chat_model,
+                tools=tools,
+                prompt=system_prompt,
+            )
 
     def execute_stream(self,query:str):
         input_dict = {
