@@ -9,16 +9,23 @@ if __package__ is None or __package__ == "":
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
 from langchain_core.tools import tool
-from  rag.rag_service import RagSummarizeService
 import requests
 
 GD_API_KEY = "9e8602aaec8b3e339fc5075bee76c7b1"
 
-rag = RagSummarizeService()
+_rag_service = None
+
+
+def _get_rag_service():
+    global _rag_service
+    if _rag_service is None:
+        from rag.rag_service import RagSummarizeService
+        _rag_service = RagSummarizeService()
+    return _rag_service
 
 @tool(description="从向量存储中检索参考资料")
 def rag_summarize(query:str)->str:
-    return rag.rag_summarize(query)
+    return _get_rag_service().rag_summarize(query)
 
 @tool(description="获取城市天气")
 def get_weather(city: str) -> str:

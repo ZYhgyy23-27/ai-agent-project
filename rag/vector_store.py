@@ -1,7 +1,6 @@
 from re import search
 from xml.dom.minidom import Document
 
-from langchain_chroma import Chroma
 import os
 import sys
 
@@ -22,6 +21,13 @@ from langchain_core.documents import Document
 #向量存储服务
 class VectorStoreService(object):
     def __init__(self):
+        try:
+            from langchain_chroma import Chroma
+        except Exception as e:
+            raise RuntimeError(
+                "向量库依赖加载失败（langchain_chroma/chromadb/protobuf 版本可能冲突）。"
+            ) from e
+
         self.vector_store = Chroma(
             collection_name=chroma_conf["collection_name"],
             embedding_function=embed_model,
