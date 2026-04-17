@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 if __package__ is None or __package__ == "":
     # 兼容直接运行当前文件：把项目根目录加入模块搜索路径
     # 当前文件位于 agent/tools/，因此需要回退三级到项目根目录
@@ -123,25 +124,101 @@ def local_get_user_location()->str:
 
 
 
-def _get_lng_lat_impl(address: str, city: str | None = None) -> tuple[float, float]:
+def _haversine_km(lng1: float, lat1: float, lng2: float, lat2: float) -> float:
+    """计算两点球面距离（公里）。"""
+    r = 6371.0
+    lng1, lat1, lng2, lat2 = map(math.radians, [lng1, lat1, lng2, lat2])
+    dlng = lng2 - lng1
+    dlat = lat2 - lat1
+    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlng / 2) ** 2
+    c = 2 * math.asin(math.sqrt(a))
+    return r * c
+
+
+def _get_lng_lat_impl(
+    address: str,
+    city: str | None = None,
+    origin_coord: tuple[float, float] | None = None,
+) -> tuple[float, float]:
     """
     将地址转换为经纬度坐标
     """
-    url = 'https://restapi.amap.com/v3/geocode/geo'
-    params = {
-        'key': GD_API_KEY,
-        'address': address,
-        'city': city  # 可选，用于缩小搜索范围
-    }
-    response = requests.get(url, params=params)
-    data = response.json()
+    url = "https://restapi.amap.com/v3/geocode/geo"
 
-    if data['status'] == '1' and int(data['count']) > 0:
-        location = data['geocodes'][0]['location']
-        lng, lat = location.split(',')
-        return float(lng), float(lat)
-    else:
-        raise Exception(f"地理编码失败：{data.get('info', '未知错误')}")
+    def _request_geocode(target_address: str, target_city: str | None):
+        params = {
+            "key": GD_API_KEY,
+            "address": target_address,
+        }
+        if target_city and target_city.strip():
+            params["city"] = target_city.strip()
+        response = requests.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        return response.json()
+
+    def _pick_best_geocode(
+        data: dict,
+        prefer_city: str | None,
+        ref_coord: tuple[float, float] | None,
+    ):
+        geocodes = data.get("geocodes") or []
+        if not geocodes:
+            return None
+
+        # 1) 有城市偏好时优先匹配
+        if prefer_city:
+            prefer_city = prefer_city.strip()
+            for item in geocodes:
+                formatted = item.get("formatted_address", "")
+                item_city = item.get("city")
+                item_city_text = "".join(item_city) if isinstance(item_city, list) else str(item_city or "")
+                if prefer_city in formatted or prefer_city in item_city_text:
+                    return item
+
+        # 2) 若提供起点坐标，重名地点按“离起点最近”消歧（适用于跨省周边游，如沪苏浙）
+        if ref_coord and len(geocodes) > 1:
+            ref_lng, ref_lat = ref_coord
+            best_item = None
+            best_distance = float("inf")
+            for item in geocodes:
+                location = item.get("location")
+                if not location:
+                    continue
+                try:
+                    lng_text, lat_text = location.split(",")
+                    item_lng = float(lng_text)
+                    item_lat = float(lat_text)
+                    d = _haversine_km(ref_lng, ref_lat, item_lng, item_lat)
+                    if d < best_distance:
+                        best_distance = d
+                        best_item = item
+                except Exception:
+                    continue
+            if best_item:
+                return best_item
+
+        return geocodes[0]
+
+    prefer_city = city or os.getenv("USER_CITY_OVERRIDE", "").strip() or None
+    attempts = [(address, prefer_city), (address, None)]
+    if prefer_city and prefer_city not in address:
+        attempts.append((f"{prefer_city}{address}", None))
+
+    last_info = "未知错误"
+    for target_address, target_city in attempts:
+        try:
+            data = _request_geocode(target_address, target_city)
+            if data.get("status") == "1" and int(data.get("count", 0)) > 0:
+                best = _pick_best_geocode(data, prefer_city, origin_coord)
+                if best and best.get("location"):
+                    lng, lat = best["location"].split(",")
+                    return float(lng), float(lat)
+            last_info = data.get("info", last_info)
+        except Exception as e:
+            last_info = str(e)
+            continue
+
+    raise Exception(f"地理编码失败：{last_info}，address={address}，city={city}")
 
 @tool(description="将地址将地址转换为经纬度坐标")
 def get_lng_lat(address: str, city: str | None = None):
@@ -154,7 +231,7 @@ def calc_distance_by_address(address1, address2, city1=None, city2=None):
     """
     # 1. 获取起点和终点的经纬度
     origin_lng, origin_lat = _get_lng_lat_impl(address1, city1)
-    dest_lng, dest_lat = _get_lng_lat_impl(address2, city2)
+    dest_lng, dest_lat = _get_lng_lat_impl(address2, city2, origin_coord=(origin_lng, origin_lat))
 
     # 2. 调用驾车路径规划API
     url = 'https://restapi.amap.com/v3/direction/driving'
